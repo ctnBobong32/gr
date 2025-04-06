@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MC社交手腕模拟器</title>
+    <style>
+        body { 
+            font-family: 'Arial', sans-serif; 
+            text-align: center; 
+            background: #1a1a1a url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill-opacity=".05"><rect width="8" height="8" x="0" y="0" fill="%2300a8ff"/><rect width="8" height="8" x="8" y="8" fill="%2300a8ff"/></svg>');
+            margin: 0; 
+            padding: 10px;
+            touch-action: manipulation;
+        }
+        #game { 
+            max-width: 400px; 
+            margin: 0 auto; 
+            background: #2d2d2d; 
+            border: 4px solid #4a4a4a;
+            border-radius: 0; 
+            padding: 15px; 
+            color: #e0e0e0; 
+            box-shadow: 0 0 0 2px #000;
+        }
+        #wrist { 
+            width: 150px; 
+            height: 150px; 
+            margin: 15px auto; 
+            position: relative;
+            image-rendering: pixelated;
+        }
+        #hand { 
+            width: 100%; 
+            height: 100%; 
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><rect x="4" y="4" width="8" height="8" fill="%23a0a0a0" stroke="%23000" stroke-width="0.5"/><rect x="6" y="2" width="4" height="2" fill="%23a0a0a0" stroke="%23000" stroke-width="0.5"/></svg>'); 
+            background-size: contain; 
+            transform: rotate(0deg); 
+            transition: transform 0.05s;
+            image-rendering: pixelated;
+        }
+        #score { 
+            font-size: 20px; 
+            margin: 10px 0; 
+            color: #00a8ff;
+            text-shadow: 2px 2px 0 #000;
+        }
+        button { 
+            background: #3a3a3a; 
+            border: 2px solid #4a4a4a; 
+            color: #e0e0e0; 
+            padding: 8px 16px; 
+            font-size: 14px; 
+            margin: 8px 4px; 
+            cursor: pointer; 
+            border-radius: 0;
+            box-shadow: 2px 2px 0 #000;
+            transition: all 0.1s;
+        }
+        button:active {
+            transform: translate(2px, 2px);
+            box-shadow: none;
+        }
+        button.primary {
+            background: #00a8ff;
+            color: #000;
+        }
+        #timer { 
+            font-size: 18px; 
+            margin: 10px 0; 
+            color: #ffaa00;
+            text-shadow: 2px 2px 0 #000;
+        }
+        #message { 
+            min-height: 20px; 
+            color: #ffaa00; 
+            font-weight: bold; 
+            margin: 10px 0;
+            font-size: 14px;
+            text-shadow: 1px 1px 0 #000;
+        }
+        .pixel-text {
+            font-family: 'Courier New', monospace;
+            letter-spacing: -1px;
+        }
+        #particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="game">
+        <h1 class="pixel-text" style="color: #00a8ff;">MC社交手腕模拟器</h1>
+        <p class="pixel-text">30秒内疯狂转动手腕！</p>
+        <div id="timer" class="pixel-text">时间: 30秒</div>
+        <div id="score" class="pixel-text">社交值: 0</div>
+        <div id="wrist">
+            <div id="hand"></div>
+        </div>
+        <button id="startBtn" class="primary pixel-text">开始</button>
+        <button id="cheatBtn" class="pixel-text">作弊(有风险)</button>
+        <p id="message" class="pixel-text">点击开始按钮！</p>
+    </div>
+
+    <div id="particles"></div>
+
+    <script>
+        let score = 0, isPlaying = false, timeLeft = 30, timer;
+        const elements = {
+            hand: document.getElementById('hand'),
+            score: document.getElementById('score'),
+            timer: document.getElementById('timer'),
+            startBtn: document.getElementById('startBtn'),
+            message: document.getElementById('message'),
+            cheatBtn: document.getElementById('cheatBtn'),
+            particles: document.getElementById('particles')
+        };
+        
+        const phrases = [
+            "转！转！转！",
+            "手腕要冒烟了！",
+            "社交值+1！",
+            "太慢了！",
+            "量子波动！",
+            "手腕要断了！",
+            "快看！是社交达人！",
+            "这水平...",
+            "继续！别停！",
+            "手腕在求救！",
+            "用脚试试？",
+            "系统: 就这？"
+        ];
+        
+        function createParticle(x, y) {
+            const particle = document.createElement('div');
+            particle.style.position = 'absolute';
+            particle.style.width = '4px';
+            particle.style.height = '4px';
+            particle.style.backgroundColor = ['#00a8ff', '#ffaa00', '#ff5555'][Math.floor(Math.random()*3)];
+            particle.style.left = x + 'px';
+            particle.style.top = y + 'px';
+            particle.style.pointerEvents = 'none';
+            elements.particles.appendChild(particle);
+            
+            const angle = Math.random() * Math.PI * 2;
+            const speed = 2 + Math.random() * 3;
+            const lifetime = 1000 + Math.random() * 500;
+            
+            let time = 0;
+            const update = () => {
+                time += 16;
+                const progress = time / lifetime;
+                if (progress >= 1) {
+                    particle.remove();
+                    return;
+                }
+                
+                particle.style.opacity = 1 - progress;
+                particle.style.transform = `translate(${Math.cos(angle)*speed*time/50}px, ${Math.sin(angle)*speed*time/50 - progress*progress*50}px)`;
+                requestAnimationFrame(update);
+            };
+            requestAnimationFrame(update);
+        }
+        
+        function startGame() {
+            score = 0; timeLeft = 30; isPlaying = true;
+            elements.score.textContent = `社交值: ${score}`;
+            elements.startBtn.disabled = true;
+            elements.cheatBtn.disabled = true;
+            elements.message.textContent = "疯狂转动手腕！";
+            
+            timer = setInterval(() => {
+                timeLeft--;
+                elements.timer.textContent = `时间: ${timeLeft}秒`;
+                if (timeLeft <= 0) endGame();
+                if (timeLeft === 15) elements.message.textContent = "加速！加速！";
+                if (timeLeft === 5) elements.message.textContent = "最后冲刺！";
+            }, 1000);
+            
+            document.addEventListener('mousemove', handleMove);
+            document.addEventListener('touchmove', handleMove);
+        }
+        
+        function endGame() {
+            clearInterval(timer);
+            isPlaying = false;
+            elements.startBtn.disabled = false;
+            elements.cheatBtn.disabled = false;
+            
+            let finalMessage = "";
+            if (score > 500) {
+                finalMessage = "社交之神！";
+            } else if (score > 300) {
+                finalMessage = "社交达人！";
+            } else if (score > 100) {
+                finalMessage = "还不错！";
+            } else {
+                finalMessage = "需要练习...";
+            }
+            
+            elements.message.textContent = `结束！${finalMessage} 分数: ${score}`;
+            document.removeEventListener('mousemove', handleMove);
+            document.removeEventListener('touchmove', handleMove);
+        }
+        
+        function handleMove(e) {
+            if (!isPlaying) return;
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            const rotation = (clientX / window.innerWidth) * 1440 - 720;
+            elements.hand.style.transform = `rotate(${rotation}deg)`;
+            
+            // 创建粒子效果
+            if (Math.random() > 0.7) {
+                createParticle(clientX, clientY);
+            }
+            
+            if (Math.random() > 0.5) {
+                const points = Math.floor(Math.random() * 5) + 1;
+                score += points;
+                elements.score.textContent = `社交值: ${score}`;
+                if (Math.random() > 0.8) {
+                    elements.message.textContent = phrases[Math.floor(Math.random() * phrases.length)];
+                }
+            }
+        }
+        
+        elements.startBtn.addEventListener('click', startGame);
+        elements.cheatBtn.addEventListener('click', () => {
+            if (isPlaying) {
+                score += 50;
+                elements.score.textContent = `社交值: ${score}`;
+                elements.message.textContent = "作弊成功！(可能被发现)";
+                createParticle(Math.random() * window.innerWidth, Math.random() * window.innerHeight);
+            } else {
+                elements.message.textContent = "游戏未开始！";
+            }
+        });
+        
+        // 手机触摸反馈
+        document.addEventListener('touchstart', (e) => {
+            if (isPlaying) {
+                createParticle(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        });
+    </script>
+</body>
+
+</html>
