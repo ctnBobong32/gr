@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>脑残猜数</title>
+    <style>
+        body{font-family:Arial,sans-serif;background-color:#f0f0f0;margin:0;padding:20px;min-height:100vh}.container{background-color:rgba(255,255,255,0.9);border-radius:20px;box-shadow:0 4px 15px rgba(0,0,0,0.1);padding:20px;width:90%;max-width:400px;margin:0 auto;position:relative;overflow:hidden}.left-shit{text-align:left;float:left;width:60%}.right-shit{text-align:right;float:right;width:35%}.circle{width:100px;height:100px;background-color:rgba(255,255,255,0.8);border-radius:50%;border:2px solid #ddd;margin:10px auto;display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:bold;clear:both}input{width:90%;padding:10px;margin:5px 0;border:2px solid #ddd;border-radius:20px;font-size:1rem;text-align:center}button{background-color:#555;color:white;border:none;padding:8px 15px;margin:5px 0;border-radius:20px;cursor:pointer;font-size:0.9rem;transition:all 0.2s}button:hover{transform:scale(1.03);background-color:#333}.message{font-weight:bold;margin:5px 0;min-height:20px;clear:both}.punishment{color:red;font-weight:bold;margin:5px 0;font-size:0.8rem;clear:both}.score{margin-top:10px;font-weight:bold;clear:both}
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="left-shit">
+            <h1>猜数<br>不然打死你</h1>
+            <p>1-100数字<br>猜不中死全家</p>
+        </div>
+        <div class="right-shit">
+            <button id="guessBtn">点我猜</button>
+            <button id="resetBtn">重开吧</button>
+        </div>
+
+        <div class="circle" id="circle">?</div>
+
+        <div class="left-shit">
+            <input type="number" id="guessInput" min="1" max="100" placeholder="输数字">
+        </div>
+
+        <div class="left-shit">
+            <div class="message" id="message"></div>
+            <div class="punishment" id="punishment"></div>
+            <div class="score">剩余智商: <span id="score">100</span></div>
+        </div>
+    </div>
+
+    <script>
+        const 骂人话 = ["你脑子进水了？","这都猜不中？废物","建议回娘胎重造","你数学是狗教的？","猜得跟屎一样","眼睛不要可以捐了","你妈生你时没带脑子？","这么笨活着不累吗？"];
+        let 神秘数字 = Math.floor(Math.random() * 100) + 1;
+        let 智商 = 100;
+        let 游戏结束 = false;
+        
+        const 圆 = document.getElementById('circle');
+        const 输入框 = document.getElementById('guessInput');
+        const 猜按钮 = document.getElementById('guessBtn');
+        const 重置按钮 = document.getElementById('resetBtn');
+        const 消息 = document.getElementById('message');
+        const 辱骂 = document.getElementById('punishment');
+        const 智商显示 = document.getElementById('score');
+        
+        猜按钮.addEventListener('click', 猜数字);
+        重置按钮.addEventListener('click', 重置游戏);
+        输入框.addEventListener('keypress', function(e) { if (e.key === 'Enter') 猜数字(); });
+        
+        function 猜数字() {
+            if (游戏结束) return;
+            const 猜测值 = parseInt(输入框.value);
+            if (isNaN(猜测值)) { 消息.textContent = "输数字能死？"; return; }
+            if (猜测值 < 1 || 猜测值 > 100) { 消息.textContent = "1-100都看不懂？"; return; }
+            
+            if (猜测值 === 神秘数字) {
+                圆.textContent = 神秘数字;
+                消息.textContent = "操，居然对了！";
+                辱骂.textContent = "";
+                游戏结束 = true;
+                猜按钮.disabled = true;
+                return;
+            }
+            
+            智商 -= 5;
+            if (智商 < 0) 智商 = 0;
+            智商显示.textContent = 智商;
+            
+            消息.textContent = 猜测值 < 神秘数字 ? "太小了，弱智！" : "太大了，傻逼！";
+            
+            if (Math.random() < 0.7) {
+                辱骂.textContent = 骂人话[Math.floor(Math.random() * 骂人话.length)];
+                辱骂.style.animation = "none";
+                void 辱骂.offsetWidth;
+                辱骂.style.animation = "flash 0.3s";
+            }
+            
+            输入框.value = "";
+            输入框.focus();
+        }
+        
+        function 重置游戏() {
+            神秘数字 = Math.floor(Math.random() * 100) + 1;
+            智商 = 100;
+            游戏结束 = false;
+            圆.textContent = '?';
+            消息.textContent = '';
+            辱骂.textContent = '';
+            智商显示.textContent = 智商;
+            输入框.value = '';
+            猜按钮.disabled = false;
+            输入框.focus();
+        }
+    </script>
+</body>
+
+</html>
