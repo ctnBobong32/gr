@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <title>星彩网</title>
+    <style>
+        body{margin:0;padding:0;font-family:Arial,sans-serif;background-color:#e6f2ff;overflow-x:hidden;position:relative;height:100vh}.stars{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;overflow:hidden}.star{position:absolute;background-color:#fff;border-radius:50%;animation:twinkle 1s infinite alternate}@keyframes twinkle{0%{opacity:0.3}100%{opacity:1}}.header{text-align:center;padding:20px 0;position:relative;z-index:1}.category-btn{display:block;margin:20px auto;padding:10px 20px;background:linear-gradient(to right,#4facfe,#00f2fe);border:none;border-radius:50px;color:white;font-size:16px;cursor:pointer;box-shadow:0 4px 6px rgba(0,0,0,0.1);transition:all 0.3s;position:relative;z-index:1}.category-btn:active,.search-btn:active{transform:scale(0.85)}.search-container{position:fixed;bottom:20px;left:0;right:0;display:flex;justify-content:center;padding:0 20px;z-index:1}.google-search-container{position:fixed;bottom:70px;left:0;right:0;display:flex;justify-content:center;padding:0 20px;z-index:1}.search-input{width:80%;padding:12px 15px;border:1px solid #ccc;border-radius:25px 0 0 25px;outline:none;font-size:16px;box-shadow:0 2px 5px rgba(0,0,0,0.1)}.search-btn{width:50px;background:linear-gradient(to right,#4facfe,#00f2fe);border:none;border-radius:0 25px 25px 0;color:white;font-size:20px;cursor:pointer;box-shadow:0 2px 5px rgba(0,0,0,0.1);transition:all 0.3s}.category-panel{position:fixed;top:0;left:0;width:100%;height:100%;background-color:rgba(230,242,255,0.95);z-index:100;display:none;overflow-y:scroll;padding:20px;box-sizing:border-box}.panel-header{display:flex;justify-content:center;align-items:center;position:relative;margin-bottom:30px}.back-btn{position:absolute;left:0;width:30px;height:30px;border-radius:50%;background:#c0392b;color:white;border:none;cursor:pointer;display:flex;justify-content:center;align-items:center;font-size:16px;transition:all 0.3s}.back-btn:active{transform:scale(0.85)}.panel-title{text-align:center}.section-title{display:flex;justify-content:space-between;align-items:center;margin:20px 0 10px}.section-toggle{width:30px;height:30px;border-radius:50%;background:#4facfe;color:white;border:none;cursor:pointer;display:flex;justify-content:center;align-items:center;font-size:16px;transition:all 0.3s}.grid-container{display:grid;gap:15px;margin-bottom:30px}.tools-grid{grid-template-columns:1fr}.games-grid{grid-template-columns:repeat(2,1fr);gap:25px} /* 修改这里增加游戏间距 */ .grid-item{background:white;border-radius:10px;padding:10px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 5px 15px rgba(0,0,0,0.2);transition:all 0.3s}.grid-text{font-size:14px}.grid-btn{width:25px;height:25px;border-radius:50%;background:#4facfe;color:white;border:none;cursor:pointer;display:flex;justify-content:center;align-items:center;font-size:12px;transition:all 0.3s}.shape{position:absolute;z-index:0;opacity:0.7}.cube{width:30px;height:30px}.sphere{border-radius:50%;width:25px;height:25px}.pyramid{width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-bottom:30px solid #48dbfb}
+    </style>
+</head>
+
+<body>
+    <div class="stars" id="stars"></div>
+    <div class="header">
+        <h1>星彩网</h1>
+    </div><button class="category-btn" id="categoryBtn">分类</button>
+    <div class="google-search-container"><input type="text" class="search-input" id="googleSearchInput" placeholder="搜索谷歌..."><button class="search-btn" id="googleSearchBtn">➠</button></div>
+    <div class="search-container"><input type="text" class="search-input" id="searchInput" placeholder="搜索百度..."><button class="search-btn" id="searchBtn">➠</button></div>
+    <div class="category-panel" id="categoryPanel">
+        <div class="panel-header"><button class="back-btn" id="backBtn">ɔɪ</button>
+            <h2 class="panel-title">合集</h2>
+        </div>
+        <div class="section">
+            <div class="section-title">
+                <h3>星彩工具</h3><button class="section-toggle" id="toolsToggle">〓</button>
+            </div>
+            <div class="grid-container tools-grid" id="toolsGrid">
+                <div class="grid-item tools"><span class="grid-text">音乐播放器</span><button class="grid-btn" onclick="window.open('https://xincai.ctn32.dpdns.org/')">➸</button></div>
+            </div>
+        </div>
+        <div class="section">
+            <div class="section-title">
+                <h3>抽象游戏</h3><button class="section-toggle" id="gamesToggle">〓</button>
+            </div>
+            <div class="grid-container games-grid" id="gamesGrid"> <!-- 修正这里包裹游戏项 -->
+                <div class="grid-item games">
+                    <span class="grid-text">
+                        <span class="item-title">找骂猜数游戏</span>
+                    </span>
+                    <button class="grid-btn" onclick="window.open('html/找骂猜数游戏.html')">➥</button>
+                </div>
+                <div class="grid-item games">
+                    <span class="grid-text">
+                        <span class="item-title">MC社交手腕模拟器</span>
+                    </span>
+                    <button class="grid-btn" onclick="window.open('html/MC社交手腕模拟器.html')">➥</button>
+                </div>
+                <div class="grid-item games">
+                    <span class="grid-text">
+                        <span class="item-title">勇敢去做小游戏</span>
+                    </span>
+                    <button class="grid-btn" onclick="window.open('html/勇敢去做小游戏.html')">➥</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded',function(){const colors=['#ff5e57','#48dbfb','#1dd1a1','#ff9ff3','#feca57','#5f27cd','#54a0ff','#00d2d3','#ff6b6b','#576574'];for(let i=0;i<5;i++){createShape('cube',colors[i],30,30)}for(let i=0;i<5;i++){createShape('sphere',colors[i],25,25)}createShape('pyramid','#48dbfb',30,30);function createShape(type,color,width,height){const shape=document.createElement('div');shape.className=`shape ${type}`;shape.style.width=width+'px';shape.style.height=height+'px';shape.style.backgroundColor=color;shape.style.left=Math.random()*(window.innerWidth-width)+'px';shape.style.top=Math.random()*(window.innerHeight-height)+'px';document.body.appendChild(shape);animateShape(shape)}function animateShape(shape){let x=parseInt(shape.style.left),y=parseInt(shape.style.top),dx=(Math.random()*2-1),dy=(Math.random()*2-1);function move(){x+=dx;y+=dy;const header=document.querySelector('.header').getBoundingClientRect();const categoryBtn=document.querySelector('.category-btn').getBoundingClientRect();const searchContainer=document.querySelector('.search-container').getBoundingClientRect();const googleContainer=document.querySelector('.google-search-container').getBoundingClientRect();if(x<=0||x>=window.innerWidth-shape.offsetWidth)dx*=-1;if(y<=0||y>=window.innerHeight-shape.offsetHeight)dy*=-1;if(x+shape.offsetWidth>header.left&&x<header.right&&y+shape.offsetHeight>header.top&&y<header.bottom)dx*=-1,dy*=-1;if(x+shape.offsetWidth>categoryBtn.left&&x<categoryBtn.right&&y+shape.offsetHeight>categoryBtn.top&&y<categoryBtn.bottom)dx*=-1,dy*=-1;if(x+shape.offsetWidth>searchContainer.left&&x<searchContainer.right&&y+shape.offsetHeight>searchContainer.top&&y<searchContainer.bottom)dx*=-1,dy*=-1;if(x+shape.offsetWidth>googleContainer.left&&x<googleContainer.right&&y+shape.offsetHeight>googleContainer.top&&y<googleContainer.bottom)dx*=-1,dy*=-1;shape.style.left=x+'px';shape.style.top=y+'px';requestAnimationFrame(move)}move()}const starsContainer=document.getElementById('stars');const starCount=50;for(let i=0;i<starCount;i++){const star=document.createElement('div');star.className='star';star.style.width=Math.random()*3+1+'px';star.style.height=star.style.width;star.style.left=Math.random()*100+'%';star.style.top=Math.random()*100+'%';star.style.animationDelay=Math.random()+'s';starsContainer.appendChild(star)}const categoryBtn=document.getElementById('categoryBtn');const categoryPanel=document.getElementById('categoryPanel');const backBtn=document.getElementById('backBtn');categoryBtn.addEventListener('click',function(){categoryPanel.style.display='block'});backBtn.addEventListener('click',function(){categoryPanel.style.display='none'});categoryPanel.addEventListener('click',function(e){if(e.target===categoryPanel){categoryPanel.style.display='none'}});const searchBtn=document.getElementById('searchBtn');const searchInput=document.getElementById('searchInput');searchBtn.addEventListener('click',function(){if(searchInput.value.trim()){window.open('https://www.baidu.com/s?wd='+encodeURIComponent(searchInput.value))}else{searchInput.focus()}});searchInput.addEventListener('keypress',function(e){if(e.key==='Enter'){searchBtn.click()}});const googleSearchBtn=document.getElementById('googleSearchBtn');const googleSearchInput=document.getElementById('googleSearchInput');googleSearchBtn.addEventListener('click',function(){if(googleSearchInput.value.trim()){window.open('https://www.google.com/search?q='+encodeURIComponent(googleSearchInput.value))}else{googleSearchInput.focus()}});googleSearchInput.addEventListener('keypress',function(e){if(e.key==='Enter'){googleSearchBtn.click()}});const toolsToggle=document.getElementById('toolsToggle');const toolsGrid=document.getElementById('toolsGrid');toolsToggle.addEventListener('click',function(){toolsGrid.style.display=toolsGrid.style.display==='none'?'grid':'none'});const gamesToggle=document.getElementById('gamesToggle');const gamesGrid=document.getElementById('gamesGrid');gamesToggle.addEventListener('click',function(){gamesGrid.style.display=gamesGrid.style.display==='none'?'grid':'none'})});
+    </script>
+</body>
+
+</html>
